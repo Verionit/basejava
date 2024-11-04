@@ -16,18 +16,18 @@ public class ArrayStorage {
         size = 0;
     }
 
-    void save(Resume r) {
+    void save(Resume resume) {
         if (size == 0) {
-            storage[size] = r;
+            storage[size] = resume;
             size++;
         } else {
             for (int i = 0; i < size; i++) {
-                if (r.uuid.equals(storage[i].uuid)) {
+                if (resume.uuid.equals(storage[i].uuid)) {
                     System.out.println("Данный ID уже есть в списке!");
                     return;
                 }
             }
-            storage[size] = r;
+            storage[size] = resume;
             size++;
         }
     }
@@ -57,10 +57,10 @@ public class ArrayStorage {
                 storage[i] = null;
                 tempPosition = i;
 
-                Resume[] temp = new Resume[size - tempPosition - 1];
-                System.arraycopy(storage, i + 1, temp, 0, size - i - 1);
-                System.out.println(Arrays.toString(temp));
-                System.arraycopy(temp, 0, storage, i, size - 1);
+                Resume[] tempArray = new Resume[size - tempPosition - 1];
+                System.arraycopy(storage, i + 1, tempArray, 0, size - i - 1);
+                System.out.println(Arrays.toString(tempArray));
+                System.arraycopy(tempArray, 0, storage, i, size - 1);
                 size--;
                 return;
             }
@@ -72,9 +72,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] temp = new Resume[size];
-        System.arraycopy(storage, 0, temp, 0, size);
-        return temp;
+        Resume[] tempArray = new Resume[size];
+        System.arraycopy(storage, 0, tempArray, 0, size);
+        return tempArray;
     }
 
     int size() {
