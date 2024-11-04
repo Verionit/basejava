@@ -1,38 +1,49 @@
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++){
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
-            if (storage[i+1] == null && i < (storage.length-1)){
-                break;
-            }
         }
     }
 
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if (size == 0) {
+            storage[size] = r;
+            size++;
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (r.uuid.equals(storage[i].uuid)) {
+                    System.out.println("Данный ID уже есть в списке!");
+                    return;
+                }
+            }
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
         for (int i = 0; i <= size; i++) {
-            if(storage[i].uuid.equals(uuid)){
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
         }
+        System.out.println("Не найден данный ID");
         return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i <= size; i++) {
+
+        for (int i = 0; i < size; i++) {
             assert storage[i] != null;
-            if(storage[i].uuid.equals(uuid)){
+            if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
+
+
+                Resume[] temp = new Resume[size - i];
+                System.arraycopy(storage, i, temp, 0, size - i);
 
 
                 size--;
@@ -47,9 +58,7 @@ public class ArrayStorage {
      */
     Resume[] getAll() {
         Resume[] temp = new Resume[size];
-        for(int i = 0; i < size; i++){
-            temp[i] = storage[i];
-        }
+        System.arraycopy(storage, 0, temp, 0, size);
         return temp;
     }
 
