@@ -1,9 +1,11 @@
+import java.util.Arrays;
+
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
 
     void clear() {
-        if(size == 0){
+        if (size == 0) {
             System.out.println("Список чист!");
         } else {
             for (int i = 0; i < size; i++) {
@@ -47,17 +49,20 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        int tempPosition;
 
         for (int i = 0; i < size; i++) {
             assert storage[i] != null;
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
+                tempPosition = i;
 
-                Resume[] temp = new Resume[size - i];
-                System.arraycopy(storage, i, temp, 0, size - i);
-
+                Resume[] temp = new Resume[size - tempPosition - 1];
+                System.arraycopy(storage, i + 1, temp, 0, size - i - 1);
+                System.out.println(Arrays.toString(temp));
+                System.arraycopy(temp, 0, storage, i, size - 1);
                 size--;
-                break;
+                return;
             }
         }
         System.out.println("Не найдено резюме " + uuid);
