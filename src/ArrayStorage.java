@@ -5,12 +5,13 @@ public class ArrayStorage {
     void clear() {
         if (size == 0) {
             System.out.println("Массив чист!");
-        } else {
-            for (int i = 0; i < size; i++) {
-                storage[i] = null;
-            }
-            System.out.println("Массив чист!");
+            return;
         }
+
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
+        }
+        System.out.println("Массив чист!");
         size = 0;
     }
 
