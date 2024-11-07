@@ -42,16 +42,17 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
+        int foundIndex = getIndex(uuid);
         if (size == 0) {
             System.out.println("Массив пустой!");
             return null;
         }
 
-        if (getIndex(uuid) < 0) {
+        if (foundIndex < 0) {
             System.out.println("Не найден данный ID: " + uuid);
             return null;
         } else {
-            return storage[getIndex(uuid)];
+            return storage[foundIndex];
         }
     }
 
