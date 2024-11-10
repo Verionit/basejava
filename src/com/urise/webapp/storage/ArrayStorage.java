@@ -21,9 +21,11 @@ public class ArrayStorage {
 
 
     public void save(Resume resume) {
-        if (storage.length == size) {
+        int index = getIndex(resume.uuid);
+
+        if (STORAGE_LIMIT == size) {
             System.out.println("В массиве нет места для хранения!");
-        } else if (isExisting(resume.uuid)) {
+        } else if (isExisting(index)) {
             System.out.println("Данный ID:" + resume.uuid + " уже есть в массиве!");
         } else {
             storage[size] = resume;
@@ -33,8 +35,10 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (isExisting(resume.uuid)) {
-            storage[getIndex(resume.uuid)] = resume;
+        int index = getIndex(resume.uuid);
+
+        if (isExisting(index)) {
+            storage[index] = resume;
             System.out.println("Резюме успешно обновлено ID:" + resume.uuid);
         } else {
             System.out.println("Такое резюме не найдено в массиве ID: " + resume.uuid);
@@ -42,23 +46,21 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int foundIndex = getIndex(uuid);
-        if (size == 0) {
-            System.out.println("Массив пустой!");
-            return null;
-        }
+        int index = getIndex(uuid);
 
-        if (foundIndex < 0) {
+        if (index < 0) {
             System.out.println("Не найден данный ID: " + uuid);
             return null;
         } else {
-            return storage[foundIndex];
+            return storage[index];
         }
     }
 
     public void delete(String uuid) {
-        if (isExisting(uuid)) {
-            storage[getIndex(uuid)] = storage[size - 1];
+        int index = getIndex(uuid);
+
+        if (isExisting(index)) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
             System.out.println("Резюме удалено! ID:" + uuid);
@@ -84,7 +86,7 @@ public class ArrayStorage {
         return -1;
     }
 
-    protected boolean isExisting(String uuid) {
-        return getIndex(uuid) >= 0;
+    protected boolean isExisting(int index) {
+        return index >= 0;
     }
 }
