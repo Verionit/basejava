@@ -20,6 +20,18 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     @Override
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+
+        if (index >= 0) {
+            storage[index] = resume;
+            System.out.println("Резюме успешно обновлено ID:" + resume.getUuid());
+        } else {
+            System.out.println("Такое резюме не найдено в массиве ID: " + resume.getUuid());
+        }
+    }
+
+    @Override
     public void clear() {
         if (size == 0) {
             System.out.println("Массив пуст!");
@@ -40,8 +52,15 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
-    protected boolean isExisting(int index) {
-        return index >= 0;
+    protected boolean overflowOrExist(Resume resume, int index) {
+        if (STORAGE_LIMIT <= size) {
+            System.out.println("Storage overflow!");
+            return true;
+        } else if (index >= 0) {
+            System.out.println("Данный ID:" + resume.getUuid() + " уже существует!");
+            return true;
+        }
+        return false;
     }
 
     protected abstract int getIndex(String uuid);
