@@ -15,7 +15,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size] = resume;
         size++;
         System.out.println("Резюме успешно сохранено! ID:" + resume.getUuid());
-
     }
 
     @Override
