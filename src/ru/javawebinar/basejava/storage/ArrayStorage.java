@@ -5,15 +5,6 @@ import ru.javawebinar.basejava.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-
-        if (!overflowOrExist(resume, index)) {
-            putResume(resume, index);
-        }
-    }
-
-    @Override
     protected void putResume(Resume resume, int index){
         storage[size] = resume;
         size++;

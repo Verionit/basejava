@@ -7,15 +7,6 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-
-        if (!overflowOrExist(resume, index)) {
-            putResume(resume, index);
-        }
-    }
-
-    @Override
     protected void putResume(Resume resume, int index) {
         System.arraycopy(storage, -index - 1, storage, -index, size - index);
         storage[-index - 1] = resume;

@@ -17,7 +17,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public void save(Resume resume) {
+    public final void save(Resume resume) {
         int index = getIndex(resume.getUuid());
 
         if(!overflowOrExist(resume, index)){
