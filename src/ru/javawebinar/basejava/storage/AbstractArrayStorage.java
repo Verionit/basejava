@@ -5,21 +5,26 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10000;
+    protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    @Override
     public int size() {
         return size;
     }
 
-    @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    @Override
+    public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
+
+        if(!overflowOrExist(resume, index)){
+            putResume(resume, index);
+        }
+    }
+
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
 
@@ -31,18 +36,12 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    @Override
     public void clear() {
-        if (size == 0) {
-            System.out.println("Массив пуст!");
-            return;
-        }
         Arrays.fill(storage, 0, size - 1, null);
         size = 0;
         System.out.println("Массив полностью очищен!");
     }
 
-    @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
@@ -64,4 +63,5 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
+    protected abstract void putResume(Resume resume, int index);
 }

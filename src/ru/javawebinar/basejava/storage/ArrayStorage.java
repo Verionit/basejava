@@ -8,10 +8,13 @@ public class ArrayStorage extends AbstractArrayStorage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
 
-        if (overflowOrExist(resume, index)) {
-            return;
+        if (!overflowOrExist(resume, index)) {
+            putResume(resume, index);
         }
+    }
 
+    @Override
+    protected void putResume(Resume resume, int index){
         storage[size] = resume;
         size++;
         System.out.println("Резюме успешно сохранено! ID:" + resume.getUuid());

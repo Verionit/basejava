@@ -10,10 +10,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
 
-        if (overflowOrExist(resume, index)) {
-            return;
+        if (!overflowOrExist(resume, index)) {
+            putResume(resume, index);
         }
+    }
 
+    @Override
+    protected void putResume(Resume resume, int index) {
         System.arraycopy(storage, -index - 1, storage, -index, size - index);
         storage[-index - 1] = resume;
         System.out.println("Резюме успешно добавлено в массив! ID:" + resume.getUuid());
@@ -23,6 +26,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
+
         if (index < 0) {
             System.out.println("Не найдено резюме ID:" + uuid);
         } else {
