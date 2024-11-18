@@ -22,7 +22,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void shrinkArray(int index){
+    protected void shrinkArray(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
         size--;
     }
