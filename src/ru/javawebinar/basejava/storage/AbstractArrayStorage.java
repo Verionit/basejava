@@ -20,12 +20,12 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume resume) {
         int index = getIndex(resume.getUuid());
 
-        if(!overflowOrExist(resume, index)){
+        if (!overflowOrExist(resume, index)) {
             putResume(resume, index);
         }
     }
 
-    public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = getIndex(resume.getUuid());
 
         if (index >= 0) {
@@ -36,19 +36,30 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void clear() {
-        Arrays.fill(storage, 0, size - 1, null);
-        size = 0;
-        System.out.println("Массив полностью очищен!");
-    }
-
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             System.out.println("Не найден данный ID: " + uuid);
             return null;
         }
         return storage[index];
+    }
+
+    public final void delete(String uuid) {
+        int index = getIndex(uuid);
+
+        if (index < 0) {
+            System.out.println("Не найдено резюме ID:" + uuid);
+            return;
+        }
+        shrinkArray(index);
+        System.out.println("Резюме удалено! ID:" + uuid);
+    }
+
+    public void clear() {
+        Arrays.fill(storage, 0, size - 1, null);
+        size = 0;
+        System.out.println("Массив полностью очищен!");
     }
 
     protected boolean overflowOrExist(Resume resume, int index) {
@@ -64,4 +75,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
     protected abstract void putResume(Resume resume, int index);
+    protected abstract void shrinkArray(int index);
 }
