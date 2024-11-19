@@ -18,12 +18,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         System.arraycopy(storage, -index - 1, storage, -index, size - index);
         storage[-index - 1] = resume;
         System.out.println("Резюме успешно добавлено в массив! ID:" + resume.getUuid());
-        size++;
     }
 
     @Override
     protected void shrinkArray(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-        size--;
     }
 }

@@ -17,7 +17,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void putResume(Resume resume, int index) {
         storage[size] = resume;
-        size++;
         System.out.println("Резюме успешно сохранено! ID:" + resume.getUuid());
     }
 
@@ -25,6 +24,5 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void shrinkArray(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
-        size--;
     }
 }

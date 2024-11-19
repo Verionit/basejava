@@ -27,6 +27,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Данный ID:" + resume.getUuid() + " уже существует!");
             return;
         }
+        size++;
         putResume(resume, index);
     }
 
@@ -58,6 +59,7 @@ public abstract class AbstractArrayStorage implements Storage {
             return;
         }
         shrinkArray(index);
+        size--;
         System.out.println("Резюме удалено! ID:" + uuid);
     }
 
