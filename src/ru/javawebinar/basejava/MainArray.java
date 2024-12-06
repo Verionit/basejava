@@ -13,11 +13,11 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Resume r;
+        Resume resume;
         while (true) {
             System.out.print("Введите одну из команд - (list | size | save uuid | update uuid | delete uuid " +
                     "| get uuid | clear | exit): ");
@@ -38,15 +38,13 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume();
-                    r.setUuid(uuid);
-                    ARRAY_STORAGE.save(r);
+                    resume = new Resume(uuid);
+                    ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
                 case "update":
-                    r = new Resume();
-                    r.setUuid(uuid);
-                    ARRAY_STORAGE.update(r);
+                    resume = new Resume(uuid);
+                    ARRAY_STORAGE.update(resume);
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);

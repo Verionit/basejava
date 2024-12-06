@@ -1,5 +1,8 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
+import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
@@ -21,11 +24,9 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(resume.getUuid());
 
         if (STORAGE_LIMIT <= size) {
-            System.out.println("Storage overflow!");
-            return;
+            throw new StorageException("Storage overflow!", resume.getUuid());
         } else if (index >= 0) {
-            System.out.println("Данный ID:" + resume.getUuid() + " уже существует!");
-            return;
+            throw new ExistStorageException(resume.getUuid());
         }
         size++;
         putResume(resume, index);
@@ -38,15 +39,14 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = resume;
             System.out.println("Резюме успешно обновлено ID:" + resume.getUuid());
         } else {
-            System.out.println("Такое резюме не найдено в массиве ID: " + resume.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Не найден данный ID: " + uuid);
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -55,8 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
 
         if (index < 0) {
-            System.out.println("Не найдено резюме ID:" + uuid);
-            return;
+            throw new NotExistStorageException(uuid);
         }
         shrinkArray(index);
         size--;
@@ -64,9 +63,13 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void clear() {
-        Arrays.fill(storage, 0, size - 1, null);
-        size = 0;
-        System.out.println("Массив полностью очищен!");
+
+        if(size > 0){
+            Arrays.fill(storage, 0, size - 1, null);
+            size = 0;
+            System.out.println("Массив полностью очищен!");
+        }
+
     }
 
     protected abstract int getIndex(String uuid);
